@@ -4,6 +4,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Unit = UniRx.Unit;
 
 public class TrainSlotView : MonoBehaviour
 {
