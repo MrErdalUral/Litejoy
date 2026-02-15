@@ -1,4 +1,5 @@
 ﻿using System;
+using _Game.Features.Humans;
 using DG.Tweening;
 using TMPro;
 using UniRx;
@@ -17,6 +18,7 @@ namespace _Game.Features.UpgradesPopup
         [SerializeField] private Button _upgradeButton;
         [SerializeField] private TMP_Text _upgradeButtonText;
         [SerializeField] private TMP_Text _currentHealthText;
+        [SerializeField] private TMP_Text _currentDamageText;
         [SerializeField] private TMP_Text _currentLevelText;
 
         [Header("Animation Params")] [SerializeField]
@@ -35,9 +37,14 @@ namespace _Game.Features.UpgradesPopup
 
         public void UpdateHealthUpgradeText(float amount)
         {
-            _currentHealthText.text = $"Health: {100 + amount}%";
+            _currentHealthText.text = $"Health: {HumanView.BaseHealth + (int)amount}";
         }
-
+        
+        public void UpdateDamageUpgradeText(float amount)
+        {
+            _currentDamageText.text = $"Damage: {HumanView.BaseHealth + (int)amount}";
+        }
+        
         public void UpdateLevelText(int level)
         {
             _currentLevelText.text = $"Level: {level}";

@@ -13,5 +13,6 @@ namespace _Game.Features.UpgradesPopup
         void UpdateHealthUpgradeText(float amount);
         void UpdateLevelText(int level);
         void UpdateUpgradeButtonText(bool isMaxLevel, int cost);
+        void UpdateDamageUpgradeText(float amount);
     }
 }

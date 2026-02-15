@@ -45,6 +45,11 @@ namespace _Game.Features.UpgradesPopup
                 .GetUpgradeAmount(StatType.Health)
                 .Subscribe(_view.UpdateHealthUpgradeText)
                 .AddTo(_disposables);
+            
+            _upgradesModel
+                .GetUpgradeAmount(StatType.Damage)
+                .Subscribe(_view.UpdateDamageUpgradeText)
+                .AddTo(_disposables);
 
             _upgradesModel.CurrentUpgradeIndex.Select(i => i + 1) //index starts from 0
                 .Subscribe(_view.UpdateLevelText).AddTo(_disposables);

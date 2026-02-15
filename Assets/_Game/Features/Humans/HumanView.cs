@@ -1,6 +1,8 @@
 using System;
 using _Game.Features.Bosses;
 using _Game.Features.PlayerWallet;
+using _Game.Features.StartScene;
+using _Game.Features.Upgrades;
 using UniRx;
 using UnityEngine;
 
@@ -8,6 +10,9 @@ namespace _Game.Features.Humans
 {
     public class HumanView : MonoBehaviour
     {
+        public const int BaseHealth = 10;
+        public const int BaseDamage = 10;
+        
         private readonly CompositeDisposable _disposables = new();
 
         private int _health;
@@ -50,8 +55,10 @@ namespace _Game.Features.Humans
 
         public void Train()
         {
-            _health += 10;
-            _damage += 10;
+            var healthUpgradeAmount = (int) StartSceneContext.Instance.UpgradesModel.GetUpgradeAmount(StatType.Health).Value;
+            var damageUpgradeAmount = (int) StartSceneContext.Instance.UpgradesModel.GetUpgradeAmount(StatType.Damage).Value;
+            _health = BaseHealth + healthUpgradeAmount;
+            _damage = BaseDamage + damageUpgradeAmount;
         }
 
         public void StartAttacking(BossView bossView)

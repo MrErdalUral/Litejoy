@@ -9,13 +9,14 @@ namespace _Game.Features.Upgrades
     public enum StatType
     {
         Health = 0,
+        Damage = 1,
     }
     
     public class UpgradesModel : IUpgradesModel
     {
         private readonly UpgradesConfig _upgradesConfig;
-        private IReactiveProperty<int> _currentUpgradeIndex;
-        private Dictionary<StatType, IReactiveProperty<float>> _upgradeAmounts;
+        private readonly IReactiveProperty<int> _currentUpgradeIndex;
+        private readonly Dictionary<StatType, IReactiveProperty<float>> _upgradeAmounts;
         
         public IReadOnlyReactiveProperty<int> CurrentUpgradeIndex => _currentUpgradeIndex;
         
@@ -31,7 +32,7 @@ namespace _Game.Features.Upgrades
                 _upgradeAmounts.Add(type, new ReactiveProperty<float>(0));
             }
 
-            for (int i = 0; i < _upgradesConfig.UpgradeStepsList.Count && i <= currentUpgradeIndex; i++)
+            for (int i = 0; i < _upgradesConfig.UpgradeStepsList.Count && i < currentUpgradeIndex; i++)
             {
                 var step = _upgradesConfig.UpgradeStepsList[i];
                 _upgradeAmounts[step.statType].Value = step.UpgradeAmount;

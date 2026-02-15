@@ -29,6 +29,7 @@ namespace _Game.Features.StartScene
 
         public ICollection<IDisposable> Disposables => _disposables;
         public IUpgradesPopupModel UpgradesPopupModel => _upgradesPopupModel;
+        public IUpgradesModel UpgradesModel => _upgradesModel;
 
         private void Awake()
         {
