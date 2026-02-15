@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Game.Features.Humans;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Game.Features.Bosses
@@ -18,6 +19,7 @@ namespace _Game.Features.Bosses
         private float _attackInterval;
         private int _targetsPerAttack;
         private int _damage;
+        private Tweener _shakeSequence;
 
         public void Initialize(double hp, float attackInterval, int targetsPerAttack, double damage)
         {
@@ -39,6 +41,10 @@ namespace _Game.Features.Bosses
         {
             if (Time.time - _lastAttackTime >= _attackInterval && _attackers.Count > 0)
             {
+                _shakeSequence ??= transform.DOShakeRotation(0.3f,strength:20f).SetAutoKill(false);
+                if(!_shakeSequence.IsPlaying())
+                    _shakeSequence.Restart();
+                
                 var defeatedHumans = new List<HumanView>();
                 for (var i = 0; i < Mathf.Min(_targetsPerAttack, _attackers.Count); i++)
                 {
@@ -62,6 +68,7 @@ namespace _Game.Features.Bosses
         public void TakeDamage(double damage)
         {
             _currentHp = Math.Max(0, _currentHp - damage);
+            
             if (!(_currentHp <= 0))
                 return;
 

@@ -3,6 +3,7 @@ using _Game.Features.Bosses;
 using _Game.Features.PlayerWallet;
 using _Game.Features.StartScene;
 using _Game.Features.Upgrades;
+using DG.Tweening;
 using UniRx;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ namespace _Game.Features.Humans
         private int _startHealth;
         private int _health;
         private int _damage;
+        private Tweener _shakeSequence;
 
         public bool IsDead() => _health <= 0;
 
@@ -80,6 +82,9 @@ namespace _Game.Features.Humans
             {
                 Wallet.AddCoins(_damage);
                 bossView.TakeDamage(_damage);
+                
+                _shakeSequence ??= transform.DOShakeRotation(0.3f,strength:20f).SetAutoKill(false);
+                _shakeSequence.Restart();
             }
         }
 
