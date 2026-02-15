@@ -23,6 +23,7 @@ namespace _Game.Features.UpgradesPopup
         public void Initialize()
         {
             _model.IsShowing.Subscribe(OnIsShowingChanged).AddTo(_disposables);
+            _view.OnCloseButtonClickedObservable.Subscribe(_ => _model.IsShowing.Value = false).AddTo(_disposables);
         }
 
         public void Dispose()

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Unit = UniRx.Unit;
 
-public class TrainSlotView : MonoBehaviour
+public class TrainSlotView : MonoBehaviour, ITrainSlotView
 {
     [SerializeField] private Button _upgradesButton;
     

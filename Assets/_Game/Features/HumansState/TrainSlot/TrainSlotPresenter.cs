@@ -7,10 +7,10 @@ using Unity.VisualScripting;
 public class TrainSlotPresenter : IInitializable, IDisposable
 {
     private readonly CompositeDisposable _disposables;
-    private readonly TrainSlotView _view;
+    private readonly ITrainSlotView _view;
     private readonly IUpgradesPopupModel _model;
     
-    public TrainSlotPresenter(ICollection<IDisposable> contextDisposable, TrainSlotView view, IUpgradesPopupModel model)
+    public TrainSlotPresenter(ICollection<IDisposable> contextDisposable, ITrainSlotView view, IUpgradesPopupModel model)
     {
         _disposables = new CompositeDisposable();
         _disposables.AddTo(contextDisposable);

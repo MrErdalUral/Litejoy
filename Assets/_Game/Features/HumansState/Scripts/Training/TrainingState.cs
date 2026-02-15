@@ -16,10 +16,11 @@ namespace _Game.Features.HumansState.Scripts.Training
 
         private bool _isFree = true;
 
-        public TrainingState(HumanStateController humanStateController, GameObject trainSlotPrefab) : base(
+        public TrainingState(HumanStateController humanStateController, TrainSlotView trainSlotPrefab) : base(
             humanStateController)
         {
-            GameObject.Instantiate(trainSlotPrefab, _startingPosition, quaternion.identity);
+            var instance = GameObject.Instantiate(trainSlotPrefab, _startingPosition, quaternion.identity);
+            StartSceneContext.Instance.SetupTrainSlotPresenter(instance);
         }
 
         protected override void Enter(HumanView humanView)

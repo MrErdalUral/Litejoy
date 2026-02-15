@@ -1,21 +1,29 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace _Game.Features.UpgradesPopup
 {
-    public class UpgradesPopupView : MonoBehaviour,IUpgradesPopupView
+    public class UpgradesPopupView : MonoBehaviour,
+        IUpgradesPopupView
     {
+        [Header("UI References")]
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _upgradeButton;
         [SerializeField] private TMP_Text _upgradeButtonText;
         [SerializeField] private TMP_Text _currentStatsText;
+        
+        [Header("Animation Params")]
         [SerializeField] private float _fadeDuration = 0.3f;
 
         private Sequence _showSequence;
         private Sequence _hideSequence;
+        
+        public IObservable<Unit> OnCloseButtonClickedObservable => _closeButton.OnClickAsObservable();
         
         public void Show()
         {

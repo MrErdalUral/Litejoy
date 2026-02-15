@@ -12,7 +12,7 @@ namespace _Game.Features.HumansState.Scripts.Core
 {
     public class HumanStateController : MonoBehaviour
     {
-        [SerializeField] private GameObject _trainStateView;
+        [SerializeField] private TrainSlotView _trainStateView;
         [SerializeField] private HumanView _humanPrefab;
         [SerializeField] private BossView _bossPrefab;
 
