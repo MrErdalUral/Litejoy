@@ -6,9 +6,10 @@ namespace _Game.Features.Upgrades
     public interface IUpgradesModel
     {
         IReadOnlyReactiveProperty<float> GetUpgradeAmount(StatType statType);
-        UpgradeStep GetNextUpgradeStep();
+        UpgradeStep GetUpgradeStep();
         IReadOnlyReactiveProperty<int> CurrentUpgradeIndex { get; }
         bool IsMaxLevel();
         int GetUpgradeCost();
+        void ApplyUpgrade();
     }
 }

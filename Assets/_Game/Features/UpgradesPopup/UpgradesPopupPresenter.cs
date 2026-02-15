@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Game.Features.PlayerWallet;
 using _Game.Features.Upgrades;
 using UniRx;
 using Unity.VisualScripting;
@@ -27,22 +28,22 @@ namespace _Game.Features.UpgradesPopup
         {
             _popupModel.IsShowing.Subscribe(OnIsShowingChanged).AddTo(_disposables);
 
-            _view.OnCloseButtonClickedObservable.Subscribe(_ => _popupModel.IsShowing.Value = false).AddTo(_disposables);
-
-            _view.OnUpgradeButtonClickedObservable.Subscribe(_ => OnUpgrade()).AddTo(_disposables);
+            _view.OnCloseButtonClickedObservable
+                .Subscribe(_ => _popupModel.IsShowing.Value = false)
+                .AddTo(_disposables);
             
-            var pointerHoverNextUpgrade = _view
-                .OnPointerHoverUpgradeButtonObservable
-                .Where(_=>_upgradesModel.IsMaxLevel())
-                .Select(isHover => (isHover, nextStep: _upgradesModel.GetNextUpgradeStep()))
-                .Where(x=>x.nextStep.statType == StatType.Health);
+            Wallet.Coins.Select(x=> x >= _upgradesModel.GetUpgradeCost())
+                .Subscribe(x=> _view.UpgradeButtonInteractable = x)
+                .AddTo(_disposables);
+            
+            _view.OnUpgradeButtonClickedObservable
+                .Where(_=>!_upgradesModel.IsMaxLevel() && Wallet.GetCoins() >= _upgradesModel.GetUpgradeCost())
+                .Subscribe(_ => OnUpgrade())
+                .AddTo(_disposables);
 
             _upgradesModel
                 .GetUpgradeAmount(StatType.Health)
-                .CombineLatest(pointerHoverNextUpgrade, 
-                    (currentAmount,y)=>(currentAmount, y.isHover, y.nextStep))
-                .Subscribe(x =>_view
-                    .UpdateHealthUpgradeText(x.isHover ? x.nextStep.UpgradeAmount : x.currentAmount, x.isHover))
+                .Subscribe(_view.UpdateHealthUpgradeText)
                 .AddTo(_disposables);
 
             _upgradesModel.CurrentUpgradeIndex.Select(i => i + 1) //index starts from 0
@@ -50,10 +51,13 @@ namespace _Game.Features.UpgradesPopup
 
             _upgradesModel.CurrentUpgradeIndex.Select(i => (isMax: _upgradesModel.IsMaxLevel(), cost: _upgradesModel.GetUpgradeCost())) //index starts from 0
                 .Subscribe(x => _view.UpdateUpgradeButtonText(x.isMax, x.cost)).AddTo(_disposables);
+            
         }
 
         public void OnUpgrade()
         {
+            Wallet.AddCoins(-_upgradesModel.GetUpgradeCost());//Subtract upgrade cost from wallet
+            _upgradesModel.ApplyUpgrade();
         }
 
         public void Dispose()

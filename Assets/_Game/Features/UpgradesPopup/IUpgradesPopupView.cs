@@ -7,10 +7,10 @@ namespace _Game.Features.UpgradesPopup
     {
         IObservable<Unit> OnCloseButtonClickedObservable { get; }
         IObservable<Unit> OnUpgradeButtonClickedObservable { get; }
-        IObservable<bool> OnPointerHoverUpgradeButtonObservable { get; }
+        bool UpgradeButtonInteractable { get; set; }
         void Show();
         void Hide();
-        void UpdateHealthUpgradeText(float amount,bool isGreen=false );
+        void UpdateHealthUpgradeText(float amount);
         void UpdateLevelText(int level);
         void UpdateUpgradeButtonText(bool isMaxLevel, int cost);
     }

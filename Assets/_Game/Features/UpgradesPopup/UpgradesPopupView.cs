@@ -27,20 +27,15 @@ namespace _Game.Features.UpgradesPopup
 
         public IObservable<Unit> OnCloseButtonClickedObservable => _closeButton.OnClickAsObservable();
         public IObservable<Unit> OnUpgradeButtonClickedObservable => _upgradeButton.OnClickAsObservable();
-        public IObservable<bool> OnPointerHoverUpgradeButtonObservable => _upgradeButton
-            .OnPointerEnterAsObservable()
-            .Select(_ => true)
-            .Merge(_upgradeButton.OnPointerExitAsObservable().Select(_ => false));
-
-        public void UpdateHealthUpgradeText(float amount, bool isGreen = false)
+        public bool UpgradeButtonInteractable
         {
-            if (isGreen)
-            {
-                _upgradeButtonText.text = $"Health: <color=green>{100 + amount}%</color> ";
-                return;
-            }
-            
-            _upgradeButtonText.text = $"Health: {100 + amount}%";
+            get => _upgradeButton.interactable;
+            set => _upgradeButton.interactable = value;
+        }
+
+        public void UpdateHealthUpgradeText(float amount)
+        {
+            _currentHealthText.text = $"Health: {100 + amount}%";
         }
 
         public void UpdateLevelText(int level)

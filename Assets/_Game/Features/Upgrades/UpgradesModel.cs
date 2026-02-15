@@ -39,8 +39,14 @@ namespace _Game.Features.Upgrades
         }
         
         public IReadOnlyReactiveProperty<float> GetUpgradeAmount(StatType statType) => _upgradeAmounts[statType];
-        public UpgradeStep GetNextUpgradeStep() => _upgradesConfig.UpgradeStepsList[CurrentUpgradeIndex.Value + 1];
+        public UpgradeStep GetUpgradeStep() => _upgradesConfig.UpgradeStepsList[CurrentUpgradeIndex.Value];
         public bool IsMaxLevel() => CurrentUpgradeIndex.Value >= _upgradesConfig.UpgradeStepsList.Count - 1;
-        public int GetUpgradeCost() => IsMaxLevel() ? 0 : GetNextUpgradeStep().UpgradeCost;
+        public int GetUpgradeCost() => IsMaxLevel() ? 0 : GetUpgradeStep().UpgradeCost;
+        public void ApplyUpgrade()
+        {
+            var step = GetUpgradeStep();
+            _upgradeAmounts[step.statType].Value = step.UpgradeAmount;
+            _currentUpgradeIndex.Value++;
+        }
     }
 }

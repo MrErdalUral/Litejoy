@@ -21,8 +21,9 @@ namespace _Game.Features.HumansState.Scripts.Training
         public TrainingState(HumanStateController humanStateController, TrainSlotView trainSlotPrefab) : base(
             humanStateController)
         {
+            //might be a good idea to use a factory method for creating this object
             var instance = GameObject.Instantiate(trainSlotPrefab, _startingPosition, quaternion.identity);
-            SetupTrainSlotPresenter(trainSlotPrefab);
+            SetupTrainSlotPresenter(instance);
         }
 
         public void SetupTrainSlotPresenter(ITrainSlotView trainSlotView)
