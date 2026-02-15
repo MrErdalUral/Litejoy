@@ -2,6 +2,8 @@ using System;
 using _Game.Features.Humans;
 using _Game.Features.HumansState.Scripts.Combat;
 using _Game.Features.HumansState.Scripts.Core;
+using _Game.Features.HumansState.TrainSlot;
+using _Game.Features.StartScene;
 using UniRx;
 using Unity.Mathematics;
 using UnityEngine;
@@ -20,7 +22,13 @@ namespace _Game.Features.HumansState.Scripts.Training
             humanStateController)
         {
             var instance = GameObject.Instantiate(trainSlotPrefab, _startingPosition, quaternion.identity);
-            StartSceneContext.Instance.SetupTrainSlotPresenter(instance);
+            SetupTrainSlotPresenter(trainSlotPrefab);
+        }
+
+        public void SetupTrainSlotPresenter(ITrainSlotView trainSlotView)
+        {
+            var trainSlotPresenter = new TrainSlotPresenter(StartSceneContext.Instance.Disposables, trainSlotView, StartSceneContext.Instance.UpgradesPopupModel);
+            trainSlotPresenter.Initialize();
         }
 
         protected override void Enter(HumanView humanView)

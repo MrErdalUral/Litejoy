@@ -1,7 +1,10 @@
 ﻿using System;
 using UniRx;
 
-public interface ITrainSlotView
+namespace _Game.Features.HumansState.TrainSlot
 {
-    IObservable<Unit> OnUpgradeButtonClickedObservable { get; }
+    public interface ITrainSlotView
+    {
+        IObservable<Unit> OnUpgradeButtonClickedObservable { get; }
+    }
 }

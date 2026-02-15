@@ -6,6 +6,7 @@ using _Game.Features.HumansState.Scripts.Portal;
 using _Game.Features.HumansState.Scripts.Spawn;
 using _Game.Features.HumansState.Scripts.Training;
 using _Game.Features.HumansState.Scripts.Waiting;
+using _Game.Features.HumansState.TrainSlot;
 using UnityEngine;
 
 namespace _Game.Features.HumansState.Scripts.Core

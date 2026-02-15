@@ -4,30 +4,31 @@ using _Game.Features.UpgradesPopup;
 using UniRx;
 using Unity.VisualScripting;
 
-public class TrainSlotPresenter : IInitializable, IDisposable
+namespace _Game.Features.HumansState.TrainSlot
 {
-    private readonly CompositeDisposable _disposables;
-    private readonly ITrainSlotView _view;
-    private readonly IUpgradesPopupModel _model;
-    
-    public TrainSlotPresenter(ICollection<IDisposable> contextDisposable, ITrainSlotView view, IUpgradesPopupModel model)
+    public class TrainSlotPresenter : IInitializable, IDisposable
     {
-        _disposables = new CompositeDisposable();
-        _disposables.AddTo(contextDisposable);
-        
-        _view = view;
-        _model = model;
-    }
+        private readonly CompositeDisposable _disposables;
+        private readonly ITrainSlotView _view;
+        private readonly IUpgradesPopupModel _model;
 
-    public void Initialize()
-    {
-        _view.OnUpgradeButtonClickedObservable
-            .Subscribe(_ => _model.IsShowing.Value = true)
-            .AddTo(_disposables);
-    }
+        public TrainSlotPresenter(ICollection<IDisposable> contextDisposable, ITrainSlotView view, IUpgradesPopupModel model)
+        {
+            _disposables = new CompositeDisposable();
+            _disposables.AddTo(contextDisposable);
 
-    public void Dispose()
-    {
-        _disposables.Dispose();
+            _view = view;
+            _model = model;
+        }
+
+        public void Initialize()
+        {
+            _view.OnUpgradeButtonClickedObservable.Subscribe(_ => _model.IsShowing.Value = true).AddTo(_disposables);
+        }
+
+        public void Dispose()
+        {
+            _disposables.Dispose();
+        }
     }
 }
