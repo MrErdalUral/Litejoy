@@ -6,9 +6,8 @@ using UnityEngine;
 public class StartSceneContext : MonoBehaviour
 {
     private static StartSceneContext _instance;
-
     public static StartSceneContext Instance => _instance;
-
+    
     private void Awake()
     {
         _instance ??= this;
