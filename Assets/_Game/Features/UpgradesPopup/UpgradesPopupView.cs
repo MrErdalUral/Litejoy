@@ -2,43 +2,78 @@
 using DG.Tweening;
 using TMPro;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace _Game.Features.UpgradesPopup
 {
-    public class UpgradesPopupView : MonoBehaviour,
-        IUpgradesPopupView
+    public class UpgradesPopupView : MonoBehaviour, IUpgradesPopupView
     {
-        [Header("UI References")]
-        [SerializeField] private CanvasGroup _canvasGroup;
+        [Header("UI References")] [SerializeField]
+        private CanvasGroup _canvasGroup;
+
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _upgradeButton;
         [SerializeField] private TMP_Text _upgradeButtonText;
-        [SerializeField] private TMP_Text _currentStatsText;
-        
-        [Header("Animation Params")]
-        [SerializeField] private float _fadeDuration = 0.3f;
+        [SerializeField] private TMP_Text _currentHealthText;
+        [SerializeField] private TMP_Text _currentLevelText;
+
+        [Header("Animation Params")] [SerializeField]
+        private float _fadeDuration = 0.3f;
 
         private Sequence _showSequence;
         private Sequence _hideSequence;
-        
+
         public IObservable<Unit> OnCloseButtonClickedObservable => _closeButton.OnClickAsObservable();
-        
+        public IObservable<Unit> OnUpgradeButtonClickedObservable => _upgradeButton.OnClickAsObservable();
+        public IObservable<bool> OnPointerHoverUpgradeButtonObservable => _upgradeButton
+            .OnPointerEnterAsObservable()
+            .Select(_ => true)
+            .Merge(_upgradeButton.OnPointerExitAsObservable().Select(_ => false));
+
+        public void UpdateHealthUpgradeText(float amount, bool isGreen = false)
+        {
+            if (isGreen)
+            {
+                _upgradeButtonText.text = $"Health: <color=green>{100 + amount}%</color> ";
+                return;
+            }
+            
+            _upgradeButtonText.text = $"Health: {100 + amount}%";
+        }
+
+        public void UpdateLevelText(int level)
+        {
+            _currentLevelText.text = $"Level: {level}";
+        }
+
+        public void UpdateUpgradeButtonText(bool isMaxLevel, int cost)
+        {
+            if (isMaxLevel)
+            {
+                _upgradeButtonText.text = "Max Level";
+                _upgradeButton.interactable = false;
+                return;
+            }
+            
+            _upgradeButtonText.text = $"Level Up ({cost}$)";
+        }
+
         public void Show()
         {
-            if(_hideSequence != null)
+            if (_hideSequence != null)
                 _hideSequence.Complete();
-            
+
             _showSequence ??= CreateShowSequence();
             _showSequence.Restart();
         }
 
         public void Hide()
         {
-            if(_showSequence != null)
+            if (_showSequence != null)
                 _showSequence.Complete();
-            
+
             _hideSequence ??= CreateHideSequence();
             _hideSequence.Restart();
         }
@@ -60,6 +95,5 @@ namespace _Game.Features.UpgradesPopup
             sequence.SetAutoKill(false);
             return sequence;
         }
-
     }
 }

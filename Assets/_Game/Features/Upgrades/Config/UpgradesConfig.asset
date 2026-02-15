@@ -12,3 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 191f277b2d85f6c44aa3d38636597468, type: 3}
   m_Name: UpgradesConfig
   m_EditorClassIdentifier: 
+  _upgradeStepsList:
+  - UpgradeCost: 50
+    UpgradeAmount: 5
+    statType: 0
+  - UpgradeCost: 120
+    UpgradeAmount: 7.5
+    statType: 0
+  - UpgradeCost: 190
+    UpgradeAmount: 10
+    statType: 0
+  - UpgradeCost: 270
+    UpgradeAmount: 12.5
+    statType: 0
+  - UpgradeCost: 360
+    UpgradeAmount: 15
+    statType: 0
+  - UpgradeCost: 460
+    UpgradeAmount: 17.5
+    statType: 0
+  - UpgradeCost: 570
+    UpgradeAmount: 20
+    statType: 0
+  - UpgradeCost: 690
+    UpgradeAmount: 22.5
+    statType: 0
+  - UpgradeCost: 820
+    UpgradeAmount: 25
+    statType: 0
+  - UpgradeCost: 960
+    UpgradeAmount: 27.5
+    statType: 0

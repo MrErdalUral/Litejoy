@@ -16,12 +16,7 @@ namespace _Game.Features.Upgrades.Config
     public struct UpgradeStep
     {
         public int UpgradeCost;
-        public int UpgradeAmount;
-        public UpgradeType UpgradeType;
-    }
-
-    public enum UpgradeType
-    {
-        Health = 0,
+        public float UpgradeAmount;
+        public StatType statType;
     }
 }

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _upgradesPopupView: {fileID: 6770978985295140164}
+  _upgradesConfig: {fileID: 11400000, guid: f533e75e5493694498973bb2216e8e79, type: 2}
 --- !u!1 &7198404150177733846
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
