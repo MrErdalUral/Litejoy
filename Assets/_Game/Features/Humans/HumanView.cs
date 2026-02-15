@@ -10,7 +10,6 @@ namespace _Game.Features.Humans
     {
         [SerializeField] private HealthBarView _healthBar; 
         
-        private readonly CompositeDisposable _disposables = new();
         private Tweener _shakeSequence;
         public HealthBarView HealthBar => _healthBar;
 
