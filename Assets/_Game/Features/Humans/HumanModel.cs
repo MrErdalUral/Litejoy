@@ -34,12 +34,12 @@ namespace _Game.Features.Humans
             
         }
 
-        public void AttackBoss(BossView bossView)
+        public void AttackBoss(BossModel bossModel)
         {
-            if (bossView.IsAlive())
+            if (bossModel.IsAlive())
             {
                 Wallet.AddCoins(_damage);
-                bossView.TakeDamage(_damage);
+                bossModel.TakeDamage(_damage);
             }
         }
 

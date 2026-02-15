@@ -1,88 +1,23 @@
 using System;
-using System.Collections.Generic;
-using _Game.Features.Humans;
 using DG.Tweening;
 using UnityEngine;
 
 namespace _Game.Features.Bosses
 {
-    public class BossView : MonoBehaviour
+    public class BossView : MonoBehaviour,IDisposable
     {
-        public Action<List<HumanPresenter>> BossDefeatedCallback { get; set; }
-
-        private readonly List<HumanPresenter> _attackers = new();
-
-        public bool IsAlive() => _currentHp > 0;
-
-        private float _lastAttackTime;
-        private double _currentHp;
-        private float _attackInterval;
-        private int _targetsPerAttack;
-        private int _damage;
         private Tweener _shakeSequence;
 
-        public void Initialize(double hp, float attackInterval, int targetsPerAttack, double damage)
+        public void Shake()
         {
-            _currentHp = hp;
-            _attackInterval = attackInterval;
-            _targetsPerAttack = targetsPerAttack;
-            _damage = (int)damage;
+            _shakeSequence ??= transform.DOShakeRotation(0.3f,strength:20f).SetAutoKill(false);
+            if(!_shakeSequence.IsPlaying())
+                _shakeSequence.Restart();
         }
 
-        private void Update()
+        public void Dispose()
         {
-            if (!IsAlive())
-                return;
-
-            AttackHumans();
-        }
-
-        private void AttackHumans()
-        {
-            if (Time.time - _lastAttackTime >= _attackInterval && _attackers.Count > 0)
-            {
-                _shakeSequence ??= transform.DOShakeRotation(0.3f,strength:20f).SetAutoKill(false);
-                if(!_shakeSequence.IsPlaying())
-                    _shakeSequence.Restart();
-                
-                var defeatedHumans = new List<HumanPresenter>();
-                for (var i = 0; i < Mathf.Min(_targetsPerAttack, _attackers.Count); i++)
-                {
-                    var target = _attackers[i];
-                    target.Model.TakeDamage(_damage);
-                    if (target.Model.IsDead())
-                    {
-                        defeatedHumans.Add(target);
-                    }
-                }
-
-                foreach (var defeatedHuman in defeatedHumans)
-                {
-                    _attackers.Remove(defeatedHuman);
-                }
-
-                _lastAttackTime = Time.time;
-            }
-        }
-
-        public void TakeDamage(double damage)
-        {
-            _currentHp = Math.Max(0, _currentHp - damage);
-            
-            if (!(_currentHp <= 0))
-                return;
-
-            Debug.Log("Boss Defeated!");
-            BossDefeatedCallback.Invoke(_attackers);
             Destroy(gameObject);
-        }
-
-        public void RegisterAttacker(HumanPresenter human)
-        {
-            if (!_attackers.Contains(human))
-            {
-                _attackers.Add(human);
-            }
         }
     }
 }

@@ -31,15 +31,15 @@ namespace _Game.Features.Humans
             _humanModel.OnDeadSubject.Subscribe(_ => Dispose()).AddTo(_disposables);
         }
 
-        public void StartAttacking(BossView bossView)
+        public void StartAttacking(BossPresenter boss)
         {
             Observable.Interval(TimeSpan.FromMilliseconds(1000)).Subscribe(_ =>
                 {
-                    _humanModel.AttackBoss(bossView);
+                    _humanModel.AttackBoss(boss.Model);
                     _humanView.Shake();
                 })
                 .AddTo(_stateDisposables) //Stop attacking if human dead
-                .AddTo(bossView); //Stop attacking if boss dead
+                .AddTo(boss.View); //Stop attacking if boss dead
         }
 
         public void MoveTo(Vector3 targetPosition, Action<HumanPresenter> onReached)
