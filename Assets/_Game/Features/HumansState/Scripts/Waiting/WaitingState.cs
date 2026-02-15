@@ -19,26 +19,26 @@ namespace _Game.Features.HumansState.Scripts.Waiting
         {
         }
 
-        protected override void Enter(HumanView humanView)
+        protected override void Enter(HumanPresenter humanPresenter)
         {
             var position = new Vector3(Random.Range(-1f, 1f), -4, 0);
-            humanView.MoveTo(position, OnReachedWaitingSlot);
+            humanPresenter.MoveTo(position, OnReachedWaitingSlot);
         }
 
-        private void OnReachedWaitingSlot(HumanView humanView)
+        private void OnReachedWaitingSlot(HumanPresenter humanPresenter)
         {
-            _disposables.Add(humanView.GetInstanceID(), new CompositeDisposable());
+            _disposables.Add(humanPresenter.View.GetInstanceID(), new CompositeDisposable());
             Observable.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(0.5f))
                 .Where(_ => humanStateController.FreeSlotIn<TrainingState>())
-                .Subscribe(_ => FreeGridSlotAndMoveHumanToCombatPreparation(humanView))
-                .AddTo(_disposables[humanView.GetInstanceID()]);
+                .Subscribe(_ => FreeGridSlotAndMoveHumanToCombatPreparation(humanPresenter))
+                .AddTo(_disposables[humanPresenter.View.GetInstanceID()]);
         }
 
-        private void FreeGridSlotAndMoveHumanToCombatPreparation(HumanView humanView)
+        private void FreeGridSlotAndMoveHumanToCombatPreparation(HumanPresenter humanPresenter)
         {
-            _disposables[humanView.GetInstanceID()].Dispose();
-            _disposables.Remove(humanView.GetInstanceID());
-            humanStateController.TransitionTo<TrainingState>(humanView);
+            _disposables[humanPresenter.View.GetInstanceID()].Dispose();
+            _disposables.Remove(humanPresenter.View.GetInstanceID());
+            humanStateController.TransitionTo<TrainingState>(humanPresenter);
         }
     }
 }

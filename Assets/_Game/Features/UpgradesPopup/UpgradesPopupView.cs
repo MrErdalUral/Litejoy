@@ -37,12 +37,12 @@ namespace _Game.Features.UpgradesPopup
 
         public void UpdateHealthUpgradeText(float amount)
         {
-            _currentHealthText.text = $"Health: {HumanView.BaseHealth + (int)amount}";
+            _currentHealthText.text = $"Health: {HumanModel.BaseHealth + (int)amount}";
         }
         
         public void UpdateDamageUpgradeText(float amount)
         {
-            _currentDamageText.text = $"Damage: {HumanView.BaseHealth + (int)amount}";
+            _currentDamageText.text = $"Damage: {HumanModel.BaseHealth + (int)amount}";
         }
         
         public void UpdateLevelText(int level)

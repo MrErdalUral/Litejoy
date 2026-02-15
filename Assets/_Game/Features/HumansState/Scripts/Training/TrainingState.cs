@@ -32,23 +32,23 @@ namespace _Game.Features.HumansState.Scripts.Training
             trainSlotPresenter.Initialize();
         }
 
-        protected override void Enter(HumanView humanView)
+        protected override void Enter(HumanPresenter humanPresenter)
         {
             _isFree = false;
-            humanView.MoveTo(_startingPosition, _ => PrepareForCombatCurrentHuman(humanView));
+            humanPresenter.MoveTo(_startingPosition, _ => PrepareForCombatCurrentHuman(humanPresenter));
         }
 
-        private void PrepareForCombatCurrentHuman(HumanView humanView)
+        private void PrepareForCombatCurrentHuman(HumanPresenter humanPresenter)
         {
             Observable.Timer(TimeSpan.FromMilliseconds(1000))
-                .Subscribe(_ => OnFinished(humanView));
+                .Subscribe(_ => OnFinished(humanPresenter));
         }
 
-        private void OnFinished(HumanView humanView)
+        private void OnFinished(HumanPresenter humanPresenter)
         {
-            humanView.Train();
+            humanPresenter.Model.Train();
             _isFree = true;
-            humanStateController.TransitionTo<CombatState>(humanView);
+            humanStateController.TransitionTo<CombatState>(humanPresenter);
         }
     }
 }

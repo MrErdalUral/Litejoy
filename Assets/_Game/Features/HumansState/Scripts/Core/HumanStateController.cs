@@ -33,13 +33,13 @@ namespace _Game.Features.HumansState.Scripts.Core
             TransitionTo<SpawnState>();
         }
 
-        public void TransitionTo<T>(HumanView humanView = null) where T : HumanState
+        public void TransitionTo<T>(HumanPresenter humanPresenter = null) where T : HumanState
         {
             foreach (var state in _states)
             {
                 if (state.GetType() == typeof(T))
                 {
-                    state.OnEnter(humanView);
+                    state.OnEnter(humanPresenter);
                 }
             }
         }

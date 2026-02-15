@@ -21,16 +21,18 @@ namespace _Game.Features.HumansState.Scripts.Spawn
             _humanPrefab = humanPrefab;
         }
 
-        protected override void Enter(HumanView humanView)
+        protected override void Enter(HumanPresenter human)
         {
             SpawnHuman();
         }
 
         private void SpawnHuman()
         {
+            var humanModel = new HumanModel();
             var humanView = GameObject.Instantiate(_humanPrefab, Vector3.zero, Quaternion.identity);
-            humanView.Initialize(_spawnedHumansCount++);
-            humanStateController.TransitionTo<PortalState>(humanView);
+            var humanPresenter = new HumanPresenter(humanView, humanModel);
+            humanPresenter.Initialize(_spawnedHumansCount++);
+            humanStateController.TransitionTo<PortalState>(humanPresenter);
 
             Observable.Interval(TimeSpan.FromMilliseconds(1000))
                 .Where(_ => humanStateController.FreeSlotIn<PortalState>())

@@ -8,9 +8,9 @@ namespace _Game.Features.Bosses
 {
     public class BossView : MonoBehaviour
     {
-        public Action<List<HumanView>> BossDefeatedCallback { get; set; }
+        public Action<List<HumanPresenter>> BossDefeatedCallback { get; set; }
 
-        private readonly List<HumanView> _attackers = new();
+        private readonly List<HumanPresenter> _attackers = new();
 
         public bool IsAlive() => _currentHp > 0;
 
@@ -45,12 +45,12 @@ namespace _Game.Features.Bosses
                 if(!_shakeSequence.IsPlaying())
                     _shakeSequence.Restart();
                 
-                var defeatedHumans = new List<HumanView>();
+                var defeatedHumans = new List<HumanPresenter>();
                 for (var i = 0; i < Mathf.Min(_targetsPerAttack, _attackers.Count); i++)
                 {
                     var target = _attackers[i];
-                    target.TakeDamage(_damage);
-                    if (target.IsDead())
+                    target.Model.TakeDamage(_damage);
+                    if (target.Model.IsDead())
                     {
                         defeatedHumans.Add(target);
                     }
@@ -77,11 +77,11 @@ namespace _Game.Features.Bosses
             Destroy(gameObject);
         }
 
-        public void RegisterAttacker(HumanView humanView)
+        public void RegisterAttacker(HumanPresenter human)
         {
-            if (!_attackers.Contains(humanView))
+            if (!_attackers.Contains(human))
             {
-                _attackers.Add(humanView);
+                _attackers.Add(human);
             }
         }
     }

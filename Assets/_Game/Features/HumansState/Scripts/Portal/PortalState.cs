@@ -20,21 +20,21 @@ namespace _Game.Features.HumansState.Scripts.Portal
         {
         }
 
-        protected override void Enter(HumanView humanView)
+        protected override void Enter(HumanPresenter humanPresenter)
         {
-            humanView.SetPosition(_startingPosition);
+            humanPresenter.View.SetPosition(_startingPosition);
             _freeSlot = false;
 
             Observable.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(1))
                 .Where(_ => humanStateController.FreeSlotIn<WaitingState>())
-                .Subscribe(_ => MoveToWaiting(humanView))
+                .Subscribe(_ => MoveToWaiting(humanPresenter))
                 .AddTo(_disposable);
         }
 
-        private void MoveToWaiting(HumanView humanView)
+        private void MoveToWaiting(HumanPresenter humanPresenter)
         {
             _disposable.Clear();
-            humanStateController.TransitionTo<WaitingState>(humanView);
+            humanStateController.TransitionTo<WaitingState>(humanPresenter);
             _freeSlot = true;
         }
     }
