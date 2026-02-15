@@ -13,8 +13,10 @@ namespace _Game.Features.Humans
         public const int BaseHealth = 10;
         public const int BaseDamage = 10;
         
-        private readonly CompositeDisposable _disposables = new();
+        [SerializeField] private HealthBarView _healthBar; 
 
+        private readonly CompositeDisposable _disposables = new();
+        private int _startHealth;
         private int _health;
         private int _damage;
 
@@ -58,7 +60,10 @@ namespace _Game.Features.Humans
             var healthUpgradeAmount = (int) StartSceneContext.Instance.UpgradesModel.GetUpgradeAmount(StatType.Health).Value;
             var damageUpgradeAmount = (int) StartSceneContext.Instance.UpgradesModel.GetUpgradeAmount(StatType.Damage).Value;
             _health = BaseHealth + healthUpgradeAmount;
+            _startHealth = _health;
             _damage = BaseDamage + damageUpgradeAmount;
+            
+            _healthBar.SetAmount((float)_health / _startHealth);
         }
 
         public void StartAttacking(BossView bossView)
@@ -81,6 +86,8 @@ namespace _Game.Features.Humans
         public void TakeDamage(int damage)
         {
             _health -= damage;
+            _healthBar.SetAmount((float)_health / _startHealth);
+            
             if (IsDead())
             {
                 Debug.Log("Human Dead!");
